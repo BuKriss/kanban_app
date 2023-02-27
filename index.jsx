@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function CreateTaskForm (props) {
+function TaskForm (props) {
     const [title, setTitle] = useState('');
     const [priority, setPriority] = useState(1);
 
@@ -25,4 +25,4 @@ function CreateTaskForm (props) {
     )
 }
 
-export default CreateTaskForm;
+export default TaskForm;
