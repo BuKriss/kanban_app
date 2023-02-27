@@ -1,28 +1,37 @@
-import { useState } from "react";
+import React from "react";
 
-function TaskForm (props) {
-    const [title, setTitle] = useState('');
-    const [priority, setPriority] = useState(1);
+import "./index.css"
 
-    const onSubmit = () => {
-        setTitle('')
-        setPriority(1)
-        props.onSubmit({title, priority})
-    }
-
+const TaskColumn = (props) => {
+   
     return (
-        <div>
-            <div className="mb-3">
-                <label htmlFor="title" className="form-label">Title</label>
-                <input type="text" className="form-control" id="title" value={title} onChange={e => setTitle(e.target.value)} />
-            </div>
-            <div className="mb-3">
-                <label htmlFor="priority" className="form-label">Priority</label>
-                <input type="number" className="form-control" id="priority" value={priority} onChange={e => setPriority(e.target.value)}/>
-            </div>
-            <button className="btn btn-primary" onClick={onSubmit}>Add</button>
-        </div>
+        <div className="col">
+
+            <h3>{props.status}</h3>
+
+            {props.tasks
+            .filter((task) => task.status === props.status)
+            .sort((a,b) => b.priority - a.priority)
+            .map((task) => (
+                <div className="card mb-3" key={task.id}>
+                    <div className="card-body">
+                        <h5 className="card-title">{task.title}</h5>
+                        <p>{task.status}</p>
+                        <p>{task.priority}</p>
+                    </div>
+
+                    <select className="form-select" 
+                    aria-label="Default select example" 
+                    defaultValue={props.status} 
+                    onChange={(e) => props.onStatusChange(task.id, e.target.value)}>
+                        {props.statuses.map((status) => (
+                            <option key={status} value={status}>{status}</option>
+                        ))}
+                    </select>
+                </div>
+            ))}
+        </div>            
     )
 }
 
-export default TaskForm;
+export default TaskColumn;
